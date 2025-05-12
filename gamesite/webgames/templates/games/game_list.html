@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FreeGamesHub</title>
+</head>
+<body>
+    <h1>Game list</h1>
+    <ul>
+        {% for game in games %}
+            <li>
+                <a href = "{{ game.slug }}/">{{ game.title }}</a>
+            </li>
+        {% empty %}
+            <li>There aren't games available</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
