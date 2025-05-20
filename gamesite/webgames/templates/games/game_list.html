@@ -7,9 +7,7 @@
     <h1>Game list</h1>
     <ul>
         {% for game in games %}
-            <li>
-                <a href = "{{ game.slug }}/">{{ game.title }}</a>
-            </li>
+            <li><a href = "{{ game.slug }}/">{{ game.title }}</a></li>
         {% empty %}
             <li>There aren't games available</li>
         {% endfor %}
