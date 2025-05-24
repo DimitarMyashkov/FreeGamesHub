@@ -1,28 +1,48 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang = "en">
-<head>
-    <title>FreeGamesHub</title>
-</head>
-<body>
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}!</p>
-        <form action = "{% url 'logout' %}" method = "post" style = "display:inline;">
-            {% csrf_token %}
-            <button type = "submit">Logout</button>
-        </form>
+    <head>
+        <title>FreeGamesHub</title>
+        <link rel = "stylesheet" href = "{% static 'webgames/css/style.css' %}">
+    </head>
 
-    {% else %}
-        <a href = "{% url 'login' %}">Login</a>
-        <a href = "{% url 'register' %}">Register</a>
-    {% endif %}
+    <body>
+        <header class = "navbar">
+            <div class = "nav-left">
+                <h1><a href="{% url 'game_list' %}">FreeGamesHub</a></h1>
+            </div>
+            <div class = "nav-right">
+                {% if user.is_authenticated %}
+                    <span>Hello, {{ user.username }}!</span>
+                    <form method = "post" action = "{% url 'logout' %}" class = "logout-form">
+                        {% csrf_token %}
+                        <button type = "submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a href = "{% url 'login' %}">Login</a> |
+                    <a href = "{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </header>
 
-    <h1>Game list</h1>
-    <ul>
-        {% for game in games %}
-            <li><a href = "{{ game.slug }}/">{{ game.title }}</a></li>
-        {% empty %}
-            <li>There aren't games available</li>
-        {% endfor %}
-    </ul>
-</body>
+        <main>
+            <div class = "container">
+                {% if user.is_authenticated %}
+
+                {% else %}
+                    <a href = "{% url 'login' %}">Login</a>
+                    <a href = "{% url 'register' %}">Register</a>
+                {% endif %}
+
+                <h1>Game list</h1>
+                <ul>
+                    {% for game in games %}
+                        <li><a href = "{{ game.slug }}/">{{ game.title }}</a></li>
+                    {% empty %}
+                        <li>There aren't games available</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </main>
+    </body>
 </html>

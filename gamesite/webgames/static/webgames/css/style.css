@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e2f;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #ffd700;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+}
+
+.logout-container {
+    background-color: #2e2e4d;
+    padding: 1rem;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.logout-container form {
+    display: inline;
+}
+
+.logout-container button {
+    background-color: #00bfff;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logout-container button:hover {
+    background-color: #009acd;
+}
+
+
+a {
+    color: #00bfff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+form {
+    background-color: #2e2e4d;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+input[type = "text"],
+input[type = "password"],
+input[type = "email"],
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 4px;
+}
+
+button, input[type = "submit"] {
+    padding: 0.5rem 1rem;
+    background-color: #00bfff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover, input[type = "submit"]:hover {
+    background-color: #009acd;
+}
+
+.navbar {
+    background-color: #2e2e4d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.nav-left h1 a {
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-right a {
+    color: #00bfff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-right a:hover {
+    text-decoration: underline;
+}
+
+.logout-form {
+    display: inline;
+}
+
+.logout-form button {
+    background-color: #00bfff;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logout-form button:hover {
+    background-color: #009acd;
+}
+

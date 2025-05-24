@@ -1,12 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang = "en">
-<head>
-    <title>{{ game.title }}</title>
-</head>
-<body>
-    <h1>{{ game.title }}</h1>
-    <p>{{ game.description }}</p>
-    <a href = "{{ game.url }}">Play</a>
-    <p><a href = "/">← Back</a></p>
-</body>
+    <head>
+        <title>{{ game.title }}</title>
+        <link rel = "stylesheet" href="{% static 'webgames/css/style.css' %}">
+    </head>
+
+    <body>
+        <div class = "container">
+            <h1>{{ game.title }}</h1>
+            <p>{{ game.description }}</p>
+            <a href = "{{ game.url }}">Play</a>
+            <p><a href = "/">← Back</a></p>
+        </div>
+    </body>
 </html>

@@ -1,6 +1,20 @@
-<h2>Register</h2>
-<form method = "post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type = "submit">Register</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8">
+        <title>Register</title>
+        <link rel = "stylesheet" href="{% static 'webgames/css/style.css' %}">
+    </head>
+
+    <body>
+        <div class = "container">
+            <h2>Register</h2>
+            <form method = "post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type = "submit">Register</button>
+            </form>
+        </div>
+    </body>
+</html>
