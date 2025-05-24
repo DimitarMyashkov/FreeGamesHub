@@ -3,15 +3,25 @@
 <html lang = "en">
     <head>
         <title>{{ game.title }}</title>
-        <link rel = "stylesheet" href="{% static 'webgames/css/style.css' %}">
+        <link rel = "stylesheet" href = "{% static 'webgames/css/style.css' %}">
     </head>
 
     <body>
         <div class = "container">
             <h1>{{ game.title }}</h1>
             <p>{{ game.description }}</p>
-            <a href = "{{ game.url }}">Play</a>
+            <button href = "{{ game.url }}">Play</button>
             <p><a href = "/">← Back</a></p>
+        </div>
+        <div class = "mark-completed-button">
+            {% if is_completed %}
+                <p style = "color: limegreen;"><strong>You have completed this game!</strong></p>
+            {% else %}
+                <form method = "post" action = "{% url 'mark_completed' game.slug %}">
+                    {% csrf_token %}
+                    <button type = "submit">Mark as Completed</button>
+                </form>
+            {% endif %}
         </div>
     </body>
 </html>

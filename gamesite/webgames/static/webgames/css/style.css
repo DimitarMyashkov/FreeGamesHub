@@ -10,6 +10,18 @@ h1, h2 {
     color: #ffd700;
 }
 
+button {
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
 .container {
     width: 90%;
     max-width: 800px;
@@ -38,12 +50,18 @@ h1, h2 {
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .logout-container button:hover {
     background-color: #009acd;
+    transform: scale(1.03);
 }
 
+.logout-container button:active {
+    background-color: #007aa8;
+    transform: scale(0.98);
+}
 
 a {
     color: #00bfff;
@@ -78,10 +96,17 @@ button, input[type = "submit"] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover, input[type = "submit"]:hover {
     background-color: #009acd;
+    transform: scale(1.03);
+}
+
+button:active, input[type = "submit"]:hover {
+    background-color: #007aa8;
+    transform: scale(0.98);
 }
 
 .navbar {
@@ -127,9 +152,48 @@ button:hover, input[type = "submit"]:hover {
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .logout-form button:hover {
     background-color: #009acd;
+    transform: scale(1.03);
 }
 
+.logout-form button:active{
+    background-color: #007aa8;
+    transform: scale(0.98);
+}
+
+.mark-completed-button{
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+}
+
+.mark-completed-button form{
+    background-color: #1e1e2f
+}
+
+.mark-completed-button button{
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.mark-completed-button button:hover {
+    background-color: #218838;
+    transform: scale(1.03);
+}
+
+.mark-completed-button button:active {
+    background-color: #1e7e34;
+    transform: scale(0.98);
+}
