@@ -10,7 +10,7 @@
         <div class = "container">
             <h1>{{ game.title }}</h1>
             <p>{{ game.description }}</p>
-            <button href = "{{ game.url }}">Play</button>
+            <button onclick = "window.location.href = '{{ game.url }}'">Play</button>
             <p><a href = "/">← Back</a></p>
         </div>
         <div class = "mark-completed-button">
