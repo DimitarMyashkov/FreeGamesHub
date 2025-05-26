@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body,
+        canvas {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+    </style>
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1, maximum-scale = 1, user-scalable = 0">
+    <meta charset = "UTF-8">
+    </meta>
+</head>
+
+<body onload="onBodyLoad()">
+    <canvas id = "canvas-id" width = "800" height = "600">
+        <script>
+            let updateTime;
+
+            let mouseX, mouseY, isKeyPressed;
+
+            let canvas, context;
+
+            let endlessCanvas = true;
+
+            var update, draw, mouseup, mousemove, mousedown, keyup, keydown, init;
+                        
+            const reqAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+                setTimeout(callback, 1000 / 30);
+            };
+
+
+            class MyImage {
+                constructor(src, backupColor) {
+                    this.src = src;
+                    this.backupColor = backupColor;
+
+                    this.img = new Image();
+                    this.canDraw = false;
+                    this.drawBackup = false;
+
+                    this.img.onload = ()=>{
+                        this.canDraw = true;
+                    }
+                    this.img.onerror = ()=>{
+                        this.canDraw = false;
+                        this.drawBackup = true;
+                        throw "Unable to load image " + this.src;
+                    }
+                    
+                }
+                draw(x,y,xs,ys) {
+                    if(xs == undefined) {
+                        xs = this.img.width | 100;
+                        ys = this.img.height | 100;
+                    }
+                    if(!this.img.src) {
+                        this.img.src = this.src;
+                    } else if(this.canDraw) {
+                        try {
+                            context.drawImage(this.img, x, y, xs, ys);
+                        } catch(e) {
+                            this.canDraw = false;
+                            this.drawBackup = true;
+                            throw e;
+                        }
+                    } else if(this.drawBackup) {
+                        context.fillStyle = this.backupColor;
+                        context.fillRect(x, y, xs, ys);
+                    }
+                }
+            }
+
+            function preloadImages() {
+                const imageObjectList = [{imageName:'backStars',backupColor:'black'}, {imageName:'enemyBlack1',backupColor:'black'},
+                {imageName:'enemyBlack2',backupColor:'black'}, {imageName:'enemyBlack3',backupColor:'black'},
+                {imageName:'enemyBlack4',backupColor:'black'}, {imageName:'enemyBlack5',backupColor:'black'},
+                {imageName:'enemyBlue1',backupColor:'blue'}, {imageName:'enemyBlue2',backupColor:'blue'},
+                {imageName:'enemyBlue3',backupColor:'blue'}, {imageName:'enemyBlue4',backupColor:'blue'},
+                {imageName:'enemyBlue5',backupColor:'blue'}, {imageName:'enemyGreen1',backupColor:'green'},
+                {imageName:'enemyGreen2',backupColor:'green'}, {imageName:'enemyGreen3',backupColor:'green'},
+                {imageName:'enemyGreen4',backupColor:'green'}, {imageName:'enemyGreen5',backupColor:'green'},
+                {imageName:'enemyRed1',backupColor:'red'}, {imageName:'enemyRed2',backupColor:'red'},
+                {imageName:'enemyRed3',backupColor:'red'}, {imageName:'enemyRed4',backupColor:'red'},
+                {imageName:'enemyRed5',backupColor:'red'}];
+
+                for (let i = 0; i < imageObjectList.length; i++) {
+                    let name = imageObjectList[i].imageName,
+                        backupColor = imageObjectList[i].backupColor;
+                }
+            };
+
+            function areColliding(x1, y1, width1, height1, x2, y2, width2, height2) {
+                if (x2 <= x1 + width1) {
+                    if (x1 <= x2 + width2) {
+                        if (y2 <= y1 + height1) {
+                            if (y1 <= y2 + height2) {
+                                return 1;
+                            }
+                        }
+                    }
+                }
+                return 0;
+            };
+
+            function randomInteger(upTo) {
+                return Math.floor(Math.random() * upTo);
+            }
+
+            function drawImage(image, x, y, xs, ys) {
+                image.draw(x,y,xs,ys);
+            }
+
+            function isFunction(f) {
+                return typeof(f) == "function";
+            }
+
+            function updateMousePosition(e) {
+                let boundingRect = canvas.getBoundingClientRect();
+                mouseX = e.pageX - boundingRect.x;
+                mouseY = e.pageY - boundingRect.y;
+            }
+            
+            function getCanvas() {
+                canvas = document.getElementById("canvas-id");
+
+                if (endlessCanvas) {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+
+                    window.onresize = function() {
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
+                    };
+                } else {
+                    canvas.width = 800;
+                    canvas.height = 600;
+                }
+
+                context = canvas.getContext("2d");
+                context.fillStyle = "#000000";
+            }
+            
+            function attachEvents() {
+                window.addEventListener("mousemove", function(e) {
+                    updateMousePosition(e);
+                });
+
+                if (isFunction(mousemove)) {
+                    window.addEventListener("mousemove", mousemove);
+                }
+                if (isFunction(mouseup)) {
+                    window.addEventListener("mouseup", mouseup);
+                }
+                if (isFunction(mousedown)) {
+                    window.addEventListener("mousedown", mousedown);
+                }
+
+                window.addEventListener("keydown", function(e) {
+                    isKeyPressed[e.keyCode] = 1;
+                    if(isFunction(keydown)) {
+                        keydown(e.keyCode);
+                    }
+                });
+                window.addEventListener("keyup", function(e) {
+                    isKeyPressed[e.keyCode] = 0;
+                    if(isFunction(keyup)) {
+                        keyup(e.keyCode);
+                    }
+                });
+            }
+            function redraw() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                context.globalAlpha = 1;
+                context.font = "10px Arial";
+                context.fillStyle = "blue";
+                context.textBaseline = "top";
+
+                draw();
+
+                
+                reqAnimationFrame(redraw);
+            };
+
+            function initGlobalVariables() {
+                updateTime = 10;
+                mouseX = 0;
+                mouseY = 0; 
+                isKeyPressed = new Arry1(256).fill(0);
+            }
+            
+            function onBodyLoad() {
+
+                initGlobalVariables();
+
+                getCanvas();
+
+                attachEvents();
+
+                if(isFunction(init)) {
+                    init();
+                }
+                
+                redraw();
+                setInterval(update, updateTime);
+            }
+        </script>
+        <script src="game.js"></script>
+    </canvas>
+</body>
+
+</html>
