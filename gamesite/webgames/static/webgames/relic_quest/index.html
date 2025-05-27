@@ -158,10 +158,6 @@
             }
 
             
-            function tryToLoadWithFullPath(pathAndImageName, backupColor) {
-                return new MyImage(pathAndImageName, backupColor);
-            }
-
             function drawImage(myImageObject, x, y, xs, ys) {
                 myImageObject.draw(x, y, xs, ys);
             }
@@ -203,24 +199,7 @@
                 context.stroke();
             }
 
-            function drawPi6ka(aX, aY, aR, aC, aB) {
-                drawCircle(aX, aY, circle.r, aC, aB);
-                drawCircle(aX + 55, aY, circle.r, aC, aB);
-                context.fillRect(aX - 3, aY - 150, 60, 150);
-                drawCircle(aX + 27.5, aY - 150, 30);
-                drawLine(aX - 3, aY - aR + 1, aX - 2, aY - 150);
-                drawLine(aX + 57, aY - aR + 1, aX + 58, aY - 150);
-                drawLine(aX + 27.5, aY - 150, aX + 27.5, aY - 180);
-
-            }
-
-            function KURsor(aX, aY, aR, aC, aB) {
-                drawPi6ka(aX, aY, aR, aC, aB);
-                circle.x += (mouseX - circle.x) / 10 - 2.5;
-                circle.y += (mouseY - circle.y) / 10;
-            }
-
-            function updateMousePosition(e) {
+           function updateMousePosition(e) {
                 let boundingRect = canvas.getBoundingClientRect();
                 mouseX = e.pageX - boundingRect.x;
                 mouseY = e.pageY - boundingRect.y;
@@ -292,12 +271,6 @@
                 mouseX = 0;
                 mouseX = 0;
                 mouseY = 0;
-                key_left = 37;
-                key_up = 38;
-                key_right = 39;
-                key_down = 40;
-                key_a = 65;
-                key_z = 90;
                 isKeyPressed = new Array(256).fill(0);
             }
             function onBodyLoad() {

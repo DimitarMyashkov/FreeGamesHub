@@ -75,7 +75,7 @@
                 }
             }
 
-            function preloadImages() {
+            (function preloadImages() {
                 const imageObjectList = [{imageName:'backStars',backupColor:'black'}, {imageName:'enemyBlack1',backupColor:'black'},
                 {imageName:'enemyBlack2',backupColor:'black'}, {imageName:'enemyBlack3',backupColor:'black'},
                 {imageName:'enemyBlack4',backupColor:'black'}, {imageName:'enemyBlack5',backupColor:'black'},
@@ -90,9 +90,25 @@
 
                 for (let i = 0; i < imageObjectList.length; i++) {
                     let name = imageObjectList[i].imageName,
-                        backupColor = imageObjectList[i].backupColor;
+                    backupColor = imageObjectList[i].backupColor;
+                    
+                    for (let i = 0; i < imageObjectList.length; i++) {
+                        let name = imageObjectList[i].imageName,
+                            backupColor = imageObjectList[i].backupColor;
+
+                        if (name.indexOf("[") > -1) {
+                            let arrayName = name.slice(0, name.indexOf("["));
+                            let arrayNumber = name.slice(name.indexOf("[") + 1, name.indexOf("]"));
+                            if (!window[arrayName]) {
+                                window[arrayName] = [];
+                            }
+                            window[arrayName][arrayNumber] = tryToLoad(name, backupColor);
+                        } else {
+                            window[name] = tryToLoad(name, backupColor);
+                        }
+                    }
                 }
-            };
+            }());
 
             function areColliding(x1, y1, width1, height1, x2, y2, width2, height2) {
                 if (x2 <= x1 + width1) {
@@ -111,8 +127,12 @@
                 return Math.floor(Math.random() * upTo);
             }
 
-            function drawImage(image, x, y, xs, ys) {
-                image.draw(x,y,xs,ys);
+            function tryToLoad(imageNameWithoutDotPng, backupColor) {
+                return new MyImage("./images/" + imageNameWithoutDotPng + ".png", backupColor);
+            }
+
+            function drawImage(myImageObject, x, y, xs, ys) {
+                myImageObject.draw(x, y, xs, ys);
             }
 
             function isFunction(f) {
@@ -191,7 +211,7 @@
                 updateTime = 10;
                 mouseX = 0;
                 mouseY = 0; 
-                isKeyPressed = new Arry1(256).fill(0);
+                isKeyPressed = new Array(256).fill(0);
             }
             
             function onBodyLoad() {
@@ -210,7 +230,8 @@
                 setInterval(update, updateTime);
             }
         </script>
-        <script src="game.js"></script>
+        <script src = "class.js"></script>
+        <script src = "game.js"></script>
     </canvas>
 </body>
 
