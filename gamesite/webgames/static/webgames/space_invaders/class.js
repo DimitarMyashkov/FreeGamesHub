@@ -31,23 +31,6 @@ class Enemy {
         this.type = type;
     }
 
-    move() {
-        let direction = 1;
-        if (this.x <= 50) {
-            direction = 1;
-        } else if (this.x + this.width >= canvas.width - 50) {
-            direction = 2;
-        }
-
-        if (this.x > 50 && this.x < canvas.width - (50 + this.width)) {
-            if (direction == 1) {
-                this.x += this.speed;
-            } else if (direction == 2) {
-                this.x -= this.speed;
-            }
-        }
-    }
-
     draw() {
         if (this.type == 1) {
             drawImage(enemyBlack1, this.x, this.y, this.width, this.height);
