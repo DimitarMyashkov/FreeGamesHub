@@ -43,3 +43,23 @@ class Enemy {
         }
     }
 }
+
+class Bullet {
+    constructor (x, y, width, height, speed, type) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+        this.type = type;
+    }
+
+    move() {
+        if (this.type == 1) {   // player bullet
+            this.y -= this.speed;
+        } else if (this.type == 2) {    // enemy bullet
+            this.y += this.speed;
+        }
+    }
+
+}

@@ -19,13 +19,12 @@ function init() {
     player.y = (canvas.height / 4) * 3;
 
     for (let i = 0; i < numEnemies; i++) {
-        enemies.push(new Enemy(95 + i * (60 + 75), 50, 80, 75, 2, randomInteger(4) + 1));
+        enemies.push(new Enemy(95 + i * (60 + 75), 50, 80, 75, 1.5, randomInteger(4) + 1));
 
     }
 }
 
 function update() {
-    // console.log(dirEnemies);
     player.move();
     moveEnemies();
 }
