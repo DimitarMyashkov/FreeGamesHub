@@ -55,11 +55,32 @@ class Bullet {
     }
 
     move() {
-        if (this.type == 1) {   // player bullet
-            this.y -= this.speed;
-        } else if (this.type == 2) {    // enemy bullet
-            this.y += this.speed;
-        }
+        this.y -= this.speed * this.type;
     }
 
+    draw() {
+        if (this.type == 1) {
+            context.fillStyle = '#0000FF';
+        }
+        if (this.type == -1) {
+            context.fillStyle = '#FF0000';
+        }
+
+        context.globalAlpha = 0.4;
+        context.fillRect(this.x, this.y, this.width, this.height);
+    }
+
+    clear(num) {
+        num--;
+        this.x = NaN;
+        this.y = NaN;
+        this.width = NaN;
+        this.height = NaN;
+        this.speed = NaN;
+        this.type = NaN;
+    }
+
+    collide(x, y, w, h) {
+        return areColliding(this.x, this.y, this.width, this.height, x, y, w, h);
+    }
 }
