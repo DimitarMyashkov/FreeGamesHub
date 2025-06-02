@@ -3,6 +3,7 @@ let enemies = [], numEnemies = 24, dirEnemies = 1;
 let bullets = [], numBullets = 0;
 let updates = 0;
 let game = {pause: false, victory: false, loss: false, start: true};
+
 const gameplayBGMusic = new Audio('./music/time_is_up.mp3');
 const lossBGMusic = new Audio('./music/twinkling.mp3');
 const victoryBGMusic = new Audio('./music/dreams_of_peace_2.ogg');
@@ -37,7 +38,7 @@ function init() {
 function update() {
     if (game.start) {
         if (!game.pause) {
-            // gameplayBGMusic.play();
+            gameplayBGMusic.play();
             gameplayBGMusic.loop;
             updates++;
 
@@ -52,6 +53,12 @@ function update() {
                     enemies.splice(i, 1);
                     numEnemies--;
                 }
+            }
+
+            if (player.health <= 0) {
+                player.health = 0;
+                game.start = false;
+                game.loss = true;
             }
             
             if (updates % (100 - numEnemies * 2) == 0) {
@@ -72,6 +79,7 @@ function update() {
                 if (bullets[i].collide(player.x, player.y, player.width, player.height) && bullets[i].type == -1) {
                     bullets[i].remove(bullets, i);
                     numBullets--;
+                    player.health--;
                 }
             }
 
@@ -114,6 +122,18 @@ function draw() {
             bullets[i].draw();
         }
 
+        context.globalAlpha = 1;
+        context.fillStyle = '#007700';
+        context.fillRect(10, canvas.height - 120, 275, 50);
+        context.fillStyle = '#00FF00';
+        context.fillRect(10, canvas.height - 120, 27.5 * player.health, 50);
+        context.strokeStyle = '#004400';
+        context.lineWidth = 3;
+        context.strokeRect(10, canvas.height - 120, 275, 50);
+        context.fillStyle = '#004400';
+        context.font = '42.5px MS PGothic';
+        context.fillText('Health', 90, canvas.height - 117.5);
+
         if (game.pause) {
             context.fillStyle = '#000000';
             context.globalAlpha = 0.7;
@@ -123,6 +143,9 @@ function draw() {
             context.globalAlpha = 1;
             context.font = '150px MS PGothic';
             context.fillText('PAUSE', canvas.width / 2 - 250, 50);
+
+            context.font = '75px MS PGothic';
+            context.fillText('Press "Esc" to continue', canvas.width / 2 - 400, 300);
         }
     }
     
@@ -138,10 +161,7 @@ function draw() {
         context.font = '50px MS PGothic';
         context.fillText('Press "r" to restart.', canvas.width / 2 - 220, 350);
 
-        context.font = '75px MS PGothic';
-        context.fillText('Press "Esc" to continue', canvas.width / 2 - 400, 300);
-
-    }
+        }
     
     if (game.loss) {
         context.fillStyle = '#000000';
@@ -170,7 +190,29 @@ function keyup(key) {
         game.pause = false;
     }
 
-    if (game.loss || game.victory && key == 87) {
+    if (game.loss && key == 87) {
+        game.start = true;
+        game.loss = false;
+        game.victory = false;
+        player.health = 10;
+        player.x = canvas.width / 2 - 37.5;
 
+        numEnemies = 24;
+        dirEnemies = 1;
+        numBullets = 0;
+        updates = 0;
+    }
+
+    if (game.victory && key == 87) {
+        game.start = true;
+        game.loss = false;
+        game.victory = false;
+        player.health = 10;
+        player.x = canvas.width / 2 - 37.5;
+
+        numEnemies = 24;
+        dirEnemies = 1;
+        numBullets = 0;
+        updates = 0;
     }
 }
