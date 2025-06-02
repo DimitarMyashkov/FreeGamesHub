@@ -10,6 +10,12 @@ class Player {
     }
 
     move() {
+        if (this.x <= 0) {
+            this.x = 0;
+        } else if (this.x >= canvas.width - this.width) {
+            this.x = canvas.width - this.width;
+        }
+
         if (isKeyPressed[65]) {
             this.x -= this.speed;
         }else if (isKeyPressed[68]) {
@@ -80,14 +86,8 @@ class Bullet {
         context.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    clear(num) {
-        --num
-        this.x = NaN;
-        this.y = NaN;
-        this.width = NaN;
-        this.height = NaN;
-        this.speed = NaN;
-        this.type = NaN;
+    remove(arr, index) {
+        arr.splice(index, 1);
     }
 
     collide(x, y, w, h) {

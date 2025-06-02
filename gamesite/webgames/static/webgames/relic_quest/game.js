@@ -5,9 +5,9 @@ let magic = { x: undefined, y: undefined, width: 125, height: 125, frame: 0, cho
 let crystal = { x: undefined, y: undefined, width: 75, height: 175, frame: 0, draw: false, end: false, reverse: false };
 let updates = 0;
 let runes = [], enemies = [], distanceX = [], distanceY = [], angle = [];
-// const gameplayBGMusic = new Audio('./music/FullScores/Orchestral Scores/bosstheme_WO_low.mp3');
-// const winBGMusic = new Audio('./music/FullScores/Orchestral Scores/Ove Melaa - Heaven Sings.mp3');
-// const lossBGMusic = new Audio('./music/FullScores/Orchestral SCores/Ove Melaa - Times.mp3');
+const gameplayBGMusic = new Audio('./music/FullScores/Orchestral Scores/bosstheme_WO_low.mp3');
+const winBGMusic = new Audio('./music/FullScores/Orchestral Scores/Ove Melaa - Heaven Sings.mp3');
+const lossBGMusic = new Audio('./music/FullScores/Orchestral SCores/Ove Melaa - Times.mp3');
 
 function init() {
     for (let i = 0; i < 70; i++) {
@@ -23,16 +23,10 @@ function init() {
 }
 
 function update() {
-    // if(!game.start){
-    //     startBGMusic.play();
-    // }else{
-    //     startBGMusic.pause();
-    // }
-
     if (game.start && !game.loss && !game.victory) {
         updates++;
         if (!game.pause) {
-            // gameplayBGMusic.play();
+            gameplayBGMusic.play();
             player.dir = 0;
 
             for (let i = 0; i < 10; i++) {
@@ -142,22 +136,22 @@ function update() {
             }
         }
     } else {
-        // gameplayBGMusic.pause();
+        gameplayBGMusic.pause();
         player.mana = 0;
         game.start = false;
     }
 
-    // if(game.victory){
-    //     winBGMusic.play();
-    // }else{
-    //     winBGMusic.pause();
-    // }
+    if(game.victory){
+        winBGMusic.play();
+    }else{
+        winBGMusic.pause();
+    }
 
-    // if(game.loss){
-    //     lossBGMusic.play();
-    // }else{
-    //     lossBGMusic.pause();
-    // }
+    if(game.loss){
+        lossBGMusic.play();
+    }else{
+        lossBGMusic.pause();
+    }
 }
 
 function draw() {
@@ -227,8 +221,8 @@ function draw() {
         context.fillText('Mana', 97.5, 18);
 
         if (game.pause) {
-            context.fillStyle = '#FFFFFF';
-            context.globalAlpha = 0.3;
+            context.fillStyle = '#000000';
+            context.globalAlpha = 0.7;
             context.fillRect(0, 0, canvas.width, canvas.height);
 
             context.fillStyle = '#FFD100';
@@ -275,7 +269,7 @@ function keydown(key) {
         game.pause = false;
     }
 
-    if (key == 82 && game.loss) {
+    if (key == 82 && game.loss || game.victory) {
         game.victory = false;
         game.loss = false;
         game.pause = false;
@@ -297,29 +291,7 @@ function keydown(key) {
         crystal.draw = false;
         magic.frame = false;
     }
-    if (key == 82 && game.victory) {
-        game.victory = false;
-        game.loss = false;
-        game.pause = false;
-        game.start = true;
-        player.x = 0;
-        camera.x = 0;
-        player.y = 0;
-        camera.y = 0;
-        player.health = 275;
-        player.mana = 0;
-        for (let i = 0; i < 10; i++) {
-            enemies[i].x = Math.round(Math.random() * (10000 + canvas.width) - 5000);
-            enemies[i].y = Math.round(Math.random() * (10000 + canvas.width) - 5000);
-        }
-        magic.activated = false;
-        crystal.frame = 0;
-        crystal.reverse = false;
-        crystal.end = false;
-        crystal.draw = false;
-        magic.frame = 0;
-    }
-
+    
     if (!game.pause && !game.victory && !game.loss) {
         if (key == 49) {
             magic.chosen = true;
