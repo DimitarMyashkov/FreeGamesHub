@@ -1,10 +1,11 @@
 class Player {
-    constructor (x, y, width, height, speed, image) {
+    constructor (x, y, width, height, speed, health, image) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.speed = speed;
+        this.health = health;
         this.image = image;
     }
 
@@ -22,13 +23,15 @@ class Player {
 }
 
 class Enemy {
-    constructor (x, y, width, height, speed, type) {
+    constructor (x, y, width, height, speed, health, type, isAlive) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.speed = speed;
+        this.health = health;
         this.type = type;
+        this.isAlive = isAlive;
     }
 
     draw() {
@@ -41,6 +44,13 @@ class Enemy {
         } else if (this.type == 4) {
             drawImage(enemyBlack5, this.x, this.y, this.width, this.height);
         }
+    }
+
+    drawHealth() {
+        context.fillStyle = '#FF0000';
+        context.fillRect(this.x, this.y - 40, this.width, 10)
+        context.fillStyle = '#00FF00';
+        context.fillRect(this.x, this.y - 40, Math.floor(this.width / 5) * this.health, 10);
     }
 }
 
@@ -71,7 +81,7 @@ class Bullet {
     }
 
     clear(num) {
-        num--;
+        --num
         this.x = NaN;
         this.y = NaN;
         this.width = NaN;
