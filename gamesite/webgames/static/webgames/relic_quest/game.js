@@ -135,7 +135,10 @@ function update() {
             if(player.health == 0){
                 game.loss = true;
             }
+        } else {
+            gameplayBGMusic.pause();
         }
+
     } else {
         gameplayBGMusic.pause();
         player.mana = 0;
