@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset='UTF-8'></meta>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+    <title>3D Pong</title>
+</head>
+
+<body onload = 'onBodyLoad()'>
+    <canvas id = 'canvas-id' width = '800' height = '600'>
+        <script>
+            let updateTime;
+
+            let mouseX, mouseY, isKeyPressed;
+
+            let canvas, context;
+
+            let endlessCanvas = true;
+
+            var update, draw, mouseup, mousemove, mousedown, keyup, keydown, init;
+                        
+            const reqAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+                setTimeout(callback, 1000 / 30);
+            };
+
+
+
+            function areColliding(x1, y1, width1, height1, x2, y2, width2, height2) {
+                if (x2 <= x1 + width1) {
+                    if (x1 <= x2 + width2) {
+                        if (y2 <= y1 + height1) {
+                            if (y1 <= y2 + height2) {
+                                return 1;
+                            }
+                        }
+                    }
+                }
+                return 0;
+            };
+
+            function drawLine(startX, startY, endX, endY) {
+                context.beginPath();
+                context.moveTo(startX, startY);
+                context.lineTo(endX, endY);
+                context.stroke();
+            }
+
+            function isFunction(f) {
+                return typeof(f) == 'function';
+            }
+
+            function updateMousePosition(e) {
+                let boundingRect = canvas.getBoundingClientRect();
+                mouseX = e.pageX - boundingRect.x;
+                mouseY = e.pageY - boundingRect.y;
+            }
+            
+            function getCanvas() {
+                canvas = document.getElementById('canvas-id');
+
+                if (endlessCanvas) {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+
+                    window.onresize = function() {
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
+                    };
+                } else {
+                    canvas.width = 800;
+                    canvas.height = 600;
+                }
+
+                context = canvas.getContext('2d');
+                context.fillStyle = '#0000ff';
+            }
+
+            function attachEvents() {
+                window.addEventListener('mousemove', function(e) {
+                    updateMousePosition(e);
+                });
+
+                if (isFunction(mousemove)) {
+                    window.addEventListener('mousemove', mousemove);
+                }
+                if (isFunction(mouseup)) {
+                    window.addEventListener('mouseup', mouseup);
+                }
+                if (isFunction(mousedown)) {
+                    window.addEventListener('mousedown', mousedown);
+                }
+
+                window.addEventListener('keydown', function(e) {
+                    isKeyPressed[e.keyCode] = 1;
+                    if(isFunction(keydown)) {
+                        keydown(e.keyCode);
+                    }
+                });
+                window.addEventListener('keyup', function(e) {
+                    isKeyPressed[e.keyCode] = 0;
+                    if(isFunction(keyup)) {
+                        keyup(e.keyCode);
+                    }
+                });
+            }
+            
+            
+            function redraw() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                context.globalAlpha = 1;
+                context.font = '10px Arial';
+                context.fillStyle = 'blue';
+                context.textBaseline = 'top';
+
+                draw();
+
+                reqAnimationFrame(redraw);
+            };
+
+            function initGlobalVariables() {
+                updateTime = 10;
+                mouseX = 0;
+                mouseX = 0;
+                mouseY = 0;
+                isKeyPressed = new Array(256).fill(0);
+            }
+            
+            function onBodyLoad() {
+
+                initGlobalVariables();
+
+                getCanvas();
+
+                attachEvents();
+
+                if(isFunction(init)) {
+                    init();
+                }
+
+                redraw();
+                setInterval(update, updateTime);
+            }
+        </script>
+        <script src = 'game.js'></script>
+    </canvas>
+</body>
+
+</html>
