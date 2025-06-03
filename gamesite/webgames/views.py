@@ -20,9 +20,6 @@ def game_detail(request, slug):
         'is_completed': is_completed
     })
 
-def relic_quest_redirect(request):
-    return redirect('/static/webgames/relic_quest/index.html')
-
 def mark_completed(request, slug):
     game = get_object_or_404(Game, slug = slug)
     if request.user.is_authenticated:
