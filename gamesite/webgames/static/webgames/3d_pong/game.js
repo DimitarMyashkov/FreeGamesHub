@@ -2,6 +2,8 @@ let paddle = {x: 0, y: 0, z: 1, width: 200, height: 100};
 let ball = {x: 0, y: 0, z: 1.5, dx: 1, dy: 1, dz: 0.02, r: 50};
 let score = 0;
 let game = {victory: false, loss: false, pause: false};
+const gameplayBGMusic = new Audio('./music/gleam.mp3');
+
 
 function ORKEX(x, z) {
     return x / z + canvas.width / 2;
@@ -17,6 +19,8 @@ function ORKER(r, z) {
 
 function update() {
     if(!game.pause){
+        gameplayBGMusic.play();
+        gameplayBGMusic.loop;
         paddle.x = mouseX - paddle.width / 2 - canvas.width / 2;
         paddle.y = mouseY - paddle.height / 2 - canvas.height / 2;
         ball.x += ball.dx;
@@ -43,6 +47,8 @@ function update() {
             game.victory = true;
             score = 20;
         }
+    } else {
+        gameplayBGMusic.pause();
     }
 }
 
