@@ -3,6 +3,8 @@ let ball = {x: 0, y: 0, z: 1.5, dx: 1, dy: 1, dz: 0.02, r: 50};
 let score = 0;
 let game = {victory: false, loss: false, pause: false};
 const gameplayBGMusic = new Audio('./music/gleam.mp3');
+const victoryBGMusic = new Audio('./music/dark fallout.ogg');
+const defeatBGMusic = new Audio('./music/game song death finished.mp3');
 
 
 function ORKEX(x, z) {
@@ -49,6 +51,23 @@ function update() {
         }
     } else {
         gameplayBGMusic.pause();
+    }
+    if (game.victory) {
+        gameplayBGMusic.pause();
+        victoryBGMusic.play();
+        victoryBGMusic.loop;
+    } else {
+        victoryBGMusic.pause();
+    }
+
+    if (game.loss) {
+        gameplayBGMusic.pause();
+        defeatBGMusic.play();
+        if (defeatBGMusic.currentTime > 4) {
+            defeatBGMusic.pause();
+        }
+    } else {
+        defeatBGMusic.pause();
     }
 }
 
